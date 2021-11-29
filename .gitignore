@@ -1,0 +1,13 @@
+node_modules
+
+# IDEs
+.vscode/
+.idea/
+
+# modules
+/osmosis
+/terra
+/cosmos-sdk
+
+# Builds
+dist

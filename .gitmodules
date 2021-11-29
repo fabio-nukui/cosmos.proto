@@ -1,0 +1,11 @@
+[submodule "cosmos-sdk"]
+	path = cosmos-sdk
+	url = https://github.com/cosmos/cosmos-sdk.git
+
+[submodule "terra"]
+	path = terra
+	url = https://github.com/terra-money/core.git
+
+[submodule "osmosis"]
+	path = osmosis
+	url = https://github.com/osmosis-labs/osmosis.git
