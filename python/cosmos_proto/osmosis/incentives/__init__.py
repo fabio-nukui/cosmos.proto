@@ -144,24 +144,6 @@ class ActiveGaugesResponse(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class ActiveGaugesPerDenomRequest(betterproto.Message):
-    denom: str = betterproto.string_field(1)
-    # pagination defines an pagination for the request.
-    pagination: "__cosmos_base_query_v1_beta1__.PageRequest" = (
-        betterproto.message_field(2)
-    )
-
-
-@dataclass(eq=False, repr=False)
-class ActiveGaugesPerDenomResponse(betterproto.Message):
-    data: List["Gauge"] = betterproto.message_field(1)
-    # pagination defines an pagination for the response.
-    pagination: "__cosmos_base_query_v1_beta1__.PageResponse" = (
-        betterproto.message_field(2)
-    )
-
-
-@dataclass(eq=False, repr=False)
 class UpcomingGaugesRequest(betterproto.Message):
     # pagination defines an pagination for the request.
     pagination: "__cosmos_base_query_v1_beta1__.PageRequest" = (
@@ -301,24 +283,6 @@ class QueryStub(betterproto.ServiceStub):
             "/osmosis.incentives.Query/ActiveGauges", request, ActiveGaugesResponse
         )
 
-    async def active_gauges_per_denom(
-        self,
-        *,
-        denom: str = "",
-        pagination: "__cosmos_base_query_v1_beta1__.PageRequest" = None,
-    ) -> "ActiveGaugesPerDenomResponse":
-
-        request = ActiveGaugesPerDenomRequest()
-        request.denom = denom
-        if pagination is not None:
-            request.pagination = pagination
-
-        return await self._unary_unary(
-            "/osmosis.incentives.Query/ActiveGaugesPerDenom",
-            request,
-            ActiveGaugesPerDenomResponse,
-        )
-
     async def upcoming_gauges(
         self, *, pagination: "__cosmos_base_query_v1_beta1__.PageRequest" = None
     ) -> "UpcomingGaugesResponse":
@@ -444,11 +408,6 @@ class QueryBase(ServiceBase):
     ) -> "ActiveGaugesResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
-    async def active_gauges_per_denom(
-        self, denom: str, pagination: "__cosmos_base_query_v1_beta1__.PageRequest"
-    ) -> "ActiveGaugesPerDenomResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
     async def upcoming_gauges(
         self, pagination: "__cosmos_base_query_v1_beta1__.PageRequest"
     ) -> "UpcomingGaugesResponse":
@@ -508,19 +467,6 @@ class QueryBase(ServiceBase):
         }
 
         response = await self.active_gauges(**request_kwargs)
-        await stream.send_message(response)
-
-    async def __rpc_active_gauges_per_denom(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {
-            "denom": request.denom,
-            "pagination": request.pagination,
-        }
-
-        response = await self.active_gauges_per_denom(**request_kwargs)
         await stream.send_message(response)
 
     async def __rpc_upcoming_gauges(self, stream: grpclib.server.Stream) -> None:
@@ -584,12 +530,6 @@ class QueryBase(ServiceBase):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ActiveGaugesRequest,
                 ActiveGaugesResponse,
-            ),
-            "/osmosis.incentives.Query/ActiveGaugesPerDenom": grpclib.const.Handler(
-                self.__rpc_active_gauges_per_denom,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                ActiveGaugesPerDenomRequest,
-                ActiveGaugesPerDenomResponse,
             ),
             "/osmosis.incentives.Query/UpcomingGauges": grpclib.const.Handler(
                 self.__rpc_upcoming_gauges,

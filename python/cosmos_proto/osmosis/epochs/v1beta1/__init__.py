@@ -18,7 +18,6 @@ class EpochInfo(betterproto.Message):
     current_epoch: int = betterproto.int64_field(4)
     current_epoch_start_time: datetime = betterproto.message_field(5)
     epoch_counting_started: bool = betterproto.bool_field(6)
-    current_epoch_start_height: int = betterproto.int64_field(8)
 
 
 @dataclass(eq=False, repr=False)

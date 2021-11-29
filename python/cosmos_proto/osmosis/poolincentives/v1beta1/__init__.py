@@ -144,16 +144,6 @@ class QueryIncentivizedPoolsResponse(betterproto.Message):
     incentivized_pools: List["IncentivizedPool"] = betterproto.message_field(1)
 
 
-@dataclass(eq=False, repr=False)
-class QueryExternalIncentiveGaugesRequest(betterproto.Message):
-    pass
-
-
-@dataclass(eq=False, repr=False)
-class QueryExternalIncentiveGaugesResponse(betterproto.Message):
-    data: List["__incentives__.Gauge"] = betterproto.message_field(1)
-
-
 class QueryStub(betterproto.ServiceStub):
     async def gauge_ids(self, *, pool_id: int = 0) -> "QueryGaugeIdsResponse":
 
@@ -204,16 +194,6 @@ class QueryStub(betterproto.ServiceStub):
             QueryIncentivizedPoolsResponse,
         )
 
-    async def external_incentive_gauges(self) -> "QueryExternalIncentiveGaugesResponse":
-
-        request = QueryExternalIncentiveGaugesRequest()
-
-        return await self._unary_unary(
-            "/osmosis.poolincentives.v1beta1.Query/ExternalIncentiveGauges",
-            request,
-            QueryExternalIncentiveGaugesResponse,
-        )
-
 
 class QueryBase(ServiceBase):
     async def gauge_ids(self, pool_id: int) -> "QueryGaugeIdsResponse":
@@ -229,9 +209,6 @@ class QueryBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def incentivized_pools(self) -> "QueryIncentivizedPoolsResponse":
-        raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
-
-    async def external_incentive_gauges(self) -> "QueryExternalIncentiveGaugesResponse":
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_gauge_ids(self, stream: grpclib.server.Stream) -> None:
@@ -276,16 +253,6 @@ class QueryBase(ServiceBase):
         response = await self.incentivized_pools(**request_kwargs)
         await stream.send_message(response)
 
-    async def __rpc_external_incentive_gauges(
-        self, stream: grpclib.server.Stream
-    ) -> None:
-        request = await stream.recv_message()
-
-        request_kwargs = {}
-
-        response = await self.external_incentive_gauges(**request_kwargs)
-        await stream.send_message(response)
-
     def __mapping__(self) -> Dict[str, grpclib.const.Handler]:
         return {
             "/osmosis.poolincentives.v1beta1.Query/GaugeIds": grpclib.const.Handler(
@@ -318,13 +285,4 @@ class QueryBase(ServiceBase):
                 QueryIncentivizedPoolsRequest,
                 QueryIncentivizedPoolsResponse,
             ),
-            "/osmosis.poolincentives.v1beta1.Query/ExternalIncentiveGauges": grpclib.const.Handler(
-                self.__rpc_external_incentive_gauges,
-                grpclib.const.Cardinality.UNARY_UNARY,
-                QueryExternalIncentiveGaugesRequest,
-                QueryExternalIncentiveGaugesResponse,
-            ),
         }
-
-
-from ... import incentives as __incentives__

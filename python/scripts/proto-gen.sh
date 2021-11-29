@@ -8,15 +8,17 @@ mkdir -p "$OUT_DIR"
 
 echo "Processing proto files ..."
 
+TERRA_DIR="../terra/proto"
+TERRA_THIRD_PARTY_DIR="../terra/third_party/proto"
+OSMOSIS_DIR="../osmosis/proto"
 COSMOS_SDK_DIR="../cosmos-sdk/proto"
 COSMOS_SDK_THIRD_PARTY_DIR="../cosmos-sdk/third_party/proto"
-TERRA_DIR="../terra/proto"
-OSMOSIS_DIR="../osmosis/proto"
 
 protoc \
+  --proto_path=${TERRA_DIR} \
+  --proto_path=${TERRA_THIRD_PARTY_DIR} \
+  --proto_path=${OSMOSIS_DIR} \
   --proto_path=${COSMOS_SDK_DIR} \
   --proto_path=${COSMOS_SDK_THIRD_PARTY_DIR} \
-  --proto_path=${TERRA_DIR} \
-  --proto_path=${OSMOSIS_DIR} \
   --python_betterproto_out="${OUT_DIR}" \
-  $(find ${COSMOS_SDK_DIR} ${TERRA_DIR} ${OSMOSIS_DIR} -path -prune -o -name '*.proto' -print0 | xargs -0)
+  $(find ${TERRA_DIR} ${TERRA_THIRD_PARTY_DIR} ${OSMOSIS_DIR} -path -prune -o -name '*.proto' -print0 | xargs -0)
