@@ -13,7 +13,7 @@ import grpclib
 class SendAuthorization(betterproto.Message):
     """
     SendAuthorization allows the grantee to spend up to spend_limit coins from
-    the granter's account.
+    the granter's account. Since: cosmos-sdk 0.43
     """
 
     spend_limit: List["__base_v1_beta1__.Coin"] = betterproto.message_field(1)
@@ -98,10 +98,10 @@ class Metadata(betterproto.Message):
     base: str = betterproto.string_field(3)
     # display indicates the suggested denom that should be displayed in clients.
     display: str = betterproto.string_field(4)
-    # name defines the name of the token (eg: Cosmos Atom)
+    # name defines the name of the token (eg: Cosmos Atom) Since: cosmos-sdk 0.43
     name: str = betterproto.string_field(5)
     # symbol is the token symbol usually shown on exchanges (eg: ATOM). This can
-    # be the same as the display.
+    # be the same as the display. Since: cosmos-sdk 0.43
     symbol: str = betterproto.string_field(6)
 
 
@@ -224,7 +224,8 @@ class QueryTotalSupplyRequest(betterproto.Message):
     method.
     """
 
-    # pagination defines an optional pagination for the request.
+    # pagination defines an optional pagination for the request. Since: cosmos-
+    # sdk 0.43
     pagination: "__base_query_v1_beta1__.PageRequest" = betterproto.message_field(1)
 
 
@@ -237,7 +238,7 @@ class QueryTotalSupplyResponse(betterproto.Message):
 
     # supply is the supply of the coins
     supply: List["__base_v1_beta1__.Coin"] = betterproto.message_field(1)
-    # pagination defines the pagination in the response.
+    # pagination defines the pagination in the response. Since: cosmos-sdk 0.43
     pagination: "__base_query_v1_beta1__.PageResponse" = betterproto.message_field(2)
 
 

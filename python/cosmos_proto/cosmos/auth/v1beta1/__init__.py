@@ -59,6 +59,7 @@ class GenesisState(betterproto.Message):
 class QueryAccountsRequest(betterproto.Message):
     """
     QueryAccountsRequest is the request type for the Query/Accounts RPC method.
+    Since: cosmos-sdk 0.43
     """
 
     # pagination defines an optional pagination for the request.
@@ -69,7 +70,7 @@ class QueryAccountsRequest(betterproto.Message):
 class QueryAccountsResponse(betterproto.Message):
     """
     QueryAccountsResponse is the response type for the Query/Accounts RPC
-    method.
+    method. Since: cosmos-sdk 0.43
     """
 
     # accounts are the existing accounts

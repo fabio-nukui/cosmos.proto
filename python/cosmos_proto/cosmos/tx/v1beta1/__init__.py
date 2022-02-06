@@ -294,7 +294,7 @@ class SimulateRequest(betterproto.Message):
 
     # tx is the transaction to simulate. Deprecated. Send raw tx bytes instead.
     tx: "Tx" = betterproto.message_field(1)
-    # tx_bytes is the raw transaction.
+    # tx_bytes is the raw transaction. Since: cosmos-sdk 0.43
     tx_bytes: bytes = betterproto.bytes_field(2)
 
     def __post_init__(self) -> None:
